@@ -36,22 +36,33 @@ class Router {
         if ($url == '') {
             require $this->controllers['index'];
         } else {
-            if (array_key_exists($url, $this->controllers)) {
-                if (strpos($url, 'api') !== false) {
-                    header('Content-Type: application/json');
-                    require $this->controllers[$url];
-                    if (!array_key_exists($method, $methods)){
-                        echo json_encode([]);
+            if (strpos($url, 'api/') !== false) {
+                header('Content-Type: application/json');
+                $url = explode ('/', $url);
+                $path = $url[0].'/'.$url[1];
+                $param = count($url) > 2 ? $url[2] : null;
+                if (array_key_exists($path, $this->controllers)) {
+                    require $this->controllers[$path];
+                    if (array_key_exists($method, $methods)) {
+                        $methods[$method]($param);
                     } else {
-                        $methods[$method]();
+                        echo "Method not found!";
                     }
+                    $methods = null;
+
                 } else {
-                    echo "OKKKKK";
-                    require $this->controllers[$url];
+                    http_response_code(404);
+                    echo 'Controller not found';
                 }
+
             } else {
-                echo '<h1>404</h1>';
-            } 
+                if (array_key_exists($url, $this->controllers)) {
+                    require $this->controllers[$url];
+                } else {
+                    http_response_code(404);
+                    echo '404 - Page not found';
+                }
+            }
         }
         
     }

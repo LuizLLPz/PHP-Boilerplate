@@ -24,6 +24,10 @@ $methods = [
             ]
         ];
         echo json_encode($output);
-    }
+    },
+    'DELETE' => function() {
+        #Show me the url params bro!
+        echo parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY);
+    },
 ];
 

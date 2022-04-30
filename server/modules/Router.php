@@ -32,21 +32,22 @@ class Router {
     }
 
     public function load_controller($url, $method) {
-        $url = explode('/', $url, 2);
-        if ($url[1] == '') {
+        $url = explode('/', $url, 2)[1];
+        if ($url == '') {
             require $this->controllers['index'];
         } else {
-            if (array_key_exists($url[1], $this->controllers)) {
-                if (strpos($url[1], 'api') !== false) {
+            if (array_key_exists($url, $this->controllers)) {
+                if (strpos($url, 'api') !== false) {
                     header('Content-Type: application/json');
-                    require $this->controllers[$url[1]];
+                    require $this->controllers[$url];
                     if (!array_key_exists($method, $methods)){
                         echo json_encode([]);
                     } else {
                         $methods[$method]();
                     }
                 } else {
-                    require $this->controllers[$url[1]];
+                    echo "OKKKKK";
+                    require $this->controllers[$url];
                 }
             } else {
                 echo '<h1>404</h1>';

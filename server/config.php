@@ -1,6 +1,6 @@
 <?php
-#This file define paths used among the project and return a object to use on database Connection
-#This file on production projects should be listed in .gitignore
+#Esse arquivo define caminhos do projeto e retorna um objeto contendo informações para conexão com o banco de dados
+#Esse arquivo em projetos de produção deve ser listado no .gitignore
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 define('MODELS', 'server/models/');

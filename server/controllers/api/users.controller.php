@@ -1,15 +1,11 @@
 <?php
-# Controladores de api são diferentes, é necessário criar um array contendo todos os métodos http a serem tratados pela api!
+# Controladores de api são diferentes, é necessário criar um array contendo todos os métodos http a serem tratados pela api.
+require MODELS . 'User.php';
 $methods = [
-    'GET' => function() {
-        $user_obj = [
-            'name' => 'Rafael',
-            'age' => '23',
-            'email' => 'rafa@hotmail.com'
-        ];
-        echo json_encode($user_obj);
+    'GET' => function($param) {
+
     },
-    'POST' => function() {
+    'POST' => function($param) {
         $output = [
             'errors' => [
                 ['title' => 'Title is required',
@@ -25,7 +21,7 @@ $methods = [
         ];
         echo json_encode($output);
     },
-    'DELETE' => function() {
+    'DELETE' => function($param) {
         #Show me the url params bro!
         echo parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY);
     },

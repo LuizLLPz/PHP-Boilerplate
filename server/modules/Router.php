@@ -40,12 +40,26 @@ class Router {
                 header('Content-Type: application/json');
                 $url = explode ('/', $url);
                 $path = $url[0].'/'.$url[1];
-                $param = count($url) > 2 ? $url[2] : null;
+                $param = null;
+                $childendpoint = null;
+                switch (count($url)) {
+                    case 3:
+                        $param = $url[2];
+                        break;
+                    case 4:
+                        $param = $url[2];
+                        $childendpoint = [
+                            'endpoint' => $url[3],
+                            'param' => $url[2],
+                        ];
+                        break;
+                }
                 if (array_key_exists($path, $this->controllers)) {
                     require $this->controllers[$path];
                     if (array_key_exists($method, $methods)) {
-                        $methods[$method]($param);
+                        $methods[$method]($param, $childendpoint);
                     } else {
+                        echo var_dump(parse_url($_SERVER['REQUEST_URI']));
                         echo "Method not found!";
                     }
                     $methods = null;

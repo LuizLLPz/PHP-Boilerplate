@@ -2,7 +2,7 @@
 # Controladores de api são diferentes, é necessário criar um array contendo todos os métodos http a serem tratados pela api.
 require MODELS . 'User.php';
 $methods = [
-    'GET' => function($param, $childpattern = null) {
+    'GET' => function($param, $childpattern) {
         $user = new User();
         if ($childpattern) {
             if (file_exists(CONTROLLERS.'api/user/'.$childpattern['endpoint'].'.controller.php')) {
@@ -13,7 +13,19 @@ $methods = [
                 echo "Please implement this very good block of code :)";
             }
         } else {
-
+            $result = $user->selectUnique($GLOBALS['qb'], $param);
+            $hateoas = [
+                '_links' => [
+                    'self' => [
+                        'href' => 'http://localhost:8000/api/users/'.$result['id'],
+                    ],
+                    'posts' => [
+                        'href' => 'http://localhost:8000/api/users/'.$result['id'].'/posts',
+                    ],
+                ],
+            ];
+            $result = array_merge($result, $hateoas);
+            echo json_encode($result, JSON_PRETTY_PRINT);
         }
     },
     'POST' => function($param) {

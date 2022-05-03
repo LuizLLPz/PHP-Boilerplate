@@ -37,7 +37,7 @@ class Router {
             require $this->controllers['index'];
         } else {
             if (strpos($url, 'api/') !== false) {
-                header('Content-Type: application/json');
+                header("Access-Control-Allow-Origin: *");
                 $url = explode ('/', $url);
                 $path = $url[0].'/'.$url[1];
                 $param = null;

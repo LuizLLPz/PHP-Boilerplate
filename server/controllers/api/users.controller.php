@@ -8,7 +8,7 @@ $methods = [
             if (file_exists(CONTROLLERS.'api/user/'.$childpattern['endpoint'].'.controller.php')) {
                 require CONTROLLERS.'api/user/'.$childpattern['endpoint'].'.controller.php';
                 $object = get($GLOBALS['qb'], $childpattern['param']);
-                echo json_encode($object);
+                App::apiResponse($object);
             } else {
                 echo "Please implement this very good block of code :)";
             }
@@ -25,7 +25,7 @@ $methods = [
                 ],
             ];
             $result = array_merge($result, $hateoas);
-            echo json_encode($result, JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
+            App::apiResponse($result);
         }
     },
     'POST' => function($param) {

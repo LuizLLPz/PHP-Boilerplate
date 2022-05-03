@@ -20,12 +20,12 @@ $methods = [
                         'href' => 'http://localhost:8000/api/users/'.$result['id'],
                     ],
                     'posts' => [
-                        'href' => 'http://localhost:8000/api/users/'.$result['id'].'/posts',
+                        'href' => "http://localhost:8000/api/users/".$result['id']."/posts",
                     ],
                 ],
             ];
             $result = array_merge($result, $hateoas);
-            echo json_encode($result, JSON_PRETTY_PRINT);
+            echo json_encode($result, JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
         }
     },
     'POST' => function($param) {

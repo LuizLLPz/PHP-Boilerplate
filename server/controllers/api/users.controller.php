@@ -2,27 +2,22 @@
 # Controladores de api são diferentes, é necessário criar um array contendo todos os métodos http a serem tratados pela api.
 require MODELS . 'User.php';
 $methods = [
-    'GET' => function($param) {
-
+    'GET' => function($param, $childpattern = null) {
+        $user = new User();
+        if ($childpattern) {
+            if (file_exists(CONTROLLERS.'api/user/'.$childpattern['endpoint'].'.controller.php')) {
+                require CONTROLLERS.'api/user/'.$childpattern['endpoint'].'.controller.php';
+                $object = get($GLOBALS['qb'], $childpattern['param']);
+                echo json_encode($object);
+            } else {
+                echo 'please go and implement this bullshit';
+            }
+        }
     },
     'POST' => function($param) {
-        $output = [
-            'errors' => [
-                ['title' => 'Title is required',
-                'body' => 'Body is required'],
-                ['title' => 'Title is required',
-                'body' => 'Body is required']
-            ],
-            'user' => [
-                'name' => 'Erlan',
-                'age' => '23',
-                'email' => 'teste@gmail.com'
-            ]
-        ];
-        echo json_encode($output);
+
     },
     'DELETE' => function($param) {
-        #Show me the url params bro!
         echo parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY);
     },
 ];

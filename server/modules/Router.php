@@ -41,11 +41,13 @@ class Router {
                 $url = explode ('/', $url);
                 $path = $url[0].'/'.$url[1];
                 $param = count($url) > 2 ? $url[2] : null;
+                $childendpoint = count($url) == 4 ? ["param" => $url[2], "endpoint" => $url[3]] : null;
                 if (array_key_exists($path, $this->controllers)) {
                     require $this->controllers[$path];
                     if (array_key_exists($method, $methods)) {
-                        $methods[$method]($param);
+                        $methods[$method]($param, $childendpoint);
                     } else {
+                        echo var_dump(parse_url($_SERVER['REQUEST_URI']));
                         echo "Method not found!";
                     }
                     $methods = null;
